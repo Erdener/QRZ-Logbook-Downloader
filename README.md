@@ -1,5 +1,3 @@
----
-
 # 📻 QRZ Logbook CSV Downloader (Tampermonkey Script)
 
 A robust **User Script** designed to export your QSO data from **QRZ.com Logbook** into a **CSV file** instantly, without requiring a paid XML Data subscription.
@@ -28,11 +26,26 @@ First, you need a browser extension to run this script. If you already have one,
 
 ### Step 2: Install the Script
 
-Once the extension is installed, click the link below to install the script directly from this repository:
+*Choose one of the methods below:*
 
-👉 **[CLICK HERE TO INSTALL SCRIPT](https://github.com/Erdener/QRZ-Logbook-Downloader/blob/main/QRZ%20Logbook%20CSV%20Downloader.js)** 👈
+#### 🟢 Method A: Automatic (Recommended)
 
-*(Tampermonkey will open a new tab. Click **"Install"** or **"Reinstall"** to confirm.)*
+1. Click the link below to go to the script file on GitHub:
+👉 **[GO TO SCRIPT PAGE](https://github.com/Erdener/QRZ-Logbook-Downloader/blob/main/QRZ%20Logbook%20CSV%20Downloader.js)** 👈
+2. On the GitHub page, look for the **"Raw"** button (top-right of the code box).
+3. Click the **Raw** button.
+4. Tampermonkey should intercept the file and open an installation tab. Click **"Install"**.
+
+#### 🟠 Method B: Manual (If Method A doesn't work)
+
+*Some browsers (especially Firefox) may display the code as text instead of installing it automatically. If that happens:*
+
+1. Go to the **[Script Page](https://github.com/Erdener/QRZ-Logbook-Downloader/blob/main/QRZ%20Logbook%20CSV%20Downloader.js)** and click **Raw**.
+2. Select all the code (`Ctrl+A` or `Cmd+A`) and **Copy** it.
+3. Click the **Tampermonkey icon** in your browser toolbar and select **"Create a new script..."**.
+4. **Delete** any default code already in the editor.
+5. **Paste** the code you copied from GitHub.
+6. Click **File** -> **Save** (or press `Ctrl+S`).
 
 ---
 
@@ -84,5 +97,3 @@ If you have thousands of QSOs, you cannot display them all on a single page.
 ### 👨‍💻 Contributing
 
 Feel free to open an issue or submit a pull request if you find any bugs or have suggestions for improvements.
-
-**License:** MIT
