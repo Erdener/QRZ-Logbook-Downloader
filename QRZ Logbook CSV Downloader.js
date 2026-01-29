@@ -12,7 +12,7 @@
 (function() {
     'use strict';
 
-    // CSV İndirme Fonksiyonu
+    // Function to Download the CSV
     function downloadTableAsCSV() {
         let csv = [];
         // Tablo satırlarını bul
@@ -23,14 +23,14 @@
             return;
         }
 
-        // CSV Başlıkları
+        // CSV Titles
         csv.push(['Date', 'Time', 'Callsign', 'Frequency', 'Mode', 'Grid', 'Country', 'Name', 'Status'].join(","));
 
-        // Satırları gez
+        // Look at All Rows
         rows.forEach(row => {
             let cols = [];
 
-            // Hücre verilerini temizleyerek al
+            // Clean and Get the Cell Data
             let getVal = (cls) => {
                 let el = row.querySelector('.' + cls);
                 return el ? '"' + el.innerText.trim().replace(/"/g, '""') + '"' : '""';
@@ -45,7 +45,7 @@
             cols.push(getVal('td_country2'));  // Ülke
             cols.push(getVal('td_name2'));     // İsim
 
-            // Onay Durumu (Confirmed, Rejected vb.) title niteliğinden al
+            // Get from the Approval Status (Confirmed, Rejected vb.) title
             let statusEl = row.querySelector('.td_status span');
             let status = statusEl ? statusEl.getAttribute('title') : "";
             cols.push('"' + status + '"');
@@ -53,7 +53,7 @@
             csv.push(cols.join(","));
         });
 
-        // Dosya oluştur ve indir
+        // Create the File and Download
         let csvFile = new Blob([csv.join("\n")], {type: "text/csv"});
         let downloadLink = document.createElement("a");
         downloadLink.download = "QRZ_Logbook_" + new Date().toISOString().slice(0,10) + ".csv";
@@ -64,12 +64,12 @@
         document.body.removeChild(downloadLink);
     }
 
-    // Yüzen Buton Ekleme Fonksiyonu
+    // Add the Floating Button
     function addFloatingButton() {
-        // Eğer buton zaten varsa tekrar ekleme
+        // If the button already exists don't add
         if (document.getElementById('csvFloatingBtn')) return;
 
-        // Buton Konteyneri
+        // Button Container
         let btnContainer = document.createElement("div");
         btnContainer.id = "csvFloatingBtn";
         btnContainer.style.position = "fixed";
@@ -79,10 +79,10 @@
         btnContainer.style.boxShadow = "0 4px 8px rgba(0,0,0,0.3)";
         btnContainer.style.borderRadius = "5px";
 
-        // Butonun Kendisi
+        // The Button Itself
         let btn = document.createElement("button");
         btn.innerHTML = '📥 DOWNLOAD CSV';
-        // Stil Ayarları (Görsel olarak güzel ve dikkat çekici olması için)
+        // Style Conf
         btn.style.backgroundColor = "#d9534f"; // Kırmızı renk
         btn.style.color = "white";
         btn.style.border = "none";
@@ -93,19 +93,19 @@
         btn.style.cursor = "pointer";
         btn.style.fontFamily = "Arial, sans-serif";
 
-        // Hover efekti
+        // Hover effect
         btn.onmouseover = function() { btn.style.backgroundColor = "#c9302c"; };
         btn.onmouseout = function() { btn.style.backgroundColor = "#d9534f"; };
 
-        // Tıklama olayı
+        // Clicking event
         btn.onclick = downloadTableAsCSV;
 
-        // Butonu sayfaya ekle
+        // Add the button to the page
         btnContainer.appendChild(btn);
         document.body.appendChild(btnContainer);
     }
 
-    // Sürekli kontrol (Sayfa yenilense bile buton geri gelir)
+    // Continuous control (If the page is reloaded, the button reappears)
     setInterval(addFloatingButton, 1000);
 
 })();
