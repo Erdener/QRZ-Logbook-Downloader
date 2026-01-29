@@ -1,0 +1,111 @@
+// ==UserScript==
+// @name         QRZ Logbook CSV Downloader
+// @namespace    http://tampermonkey.net/
+// @version      3.0
+// @description  Download the QRZ Logbook table as CSV
+// @author       Erdener Tuna
+// @match        https://logbook.qrz.com/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=qrz.com
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // CSV İndirme Fonksiyonu
+    function downloadTableAsCSV() {
+        let csv = [];
+        // Tablo satırlarını bul
+        let rows = document.querySelectorAll("#lbtab tr.lrow");
+
+        if (rows.length === 0) {
+            alert("Tabloda veri bulunamadı veya tablo henüz yüklenmedi!");
+            return;
+        }
+
+        // CSV Başlıkları
+        csv.push(['Date', 'Time', 'Callsign', 'Frequency', 'Mode', 'Grid', 'Country', 'Name', 'Status'].join(","));
+
+        // Satırları gez
+        rows.forEach(row => {
+            let cols = [];
+
+            // Hücre verilerini temizleyerek al
+            let getVal = (cls) => {
+                let el = row.querySelector('.' + cls);
+                return el ? '"' + el.innerText.trim().replace(/"/g, '""') + '"' : '""';
+            };
+
+            cols.push(getVal('td_date'));      // Tarih
+            cols.push(getVal('td_time'));      // Saat
+            cols.push(getVal('td_call2'));     // Çağrı İşareti
+            cols.push(getVal('td_freq2'));     // Frekans
+            cols.push(getVal('td_mode2'));     // Mod
+            cols.push(getVal('td_grid2'));     // Grid
+            cols.push(getVal('td_country2'));  // Ülke
+            cols.push(getVal('td_name2'));     // İsim
+
+            // Onay Durumu (Confirmed, Rejected vb.) title niteliğinden al
+            let statusEl = row.querySelector('.td_status span');
+            let status = statusEl ? statusEl.getAttribute('title') : "";
+            cols.push('"' + status + '"');
+
+            csv.push(cols.join(","));
+        });
+
+        // Dosya oluştur ve indir
+        let csvFile = new Blob([csv.join("\n")], {type: "text/csv"});
+        let downloadLink = document.createElement("a");
+        downloadLink.download = "QRZ_Logbook_" + new Date().toISOString().slice(0,10) + ".csv";
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+
+    // Yüzen Buton Ekleme Fonksiyonu
+    function addFloatingButton() {
+        // Eğer buton zaten varsa tekrar ekleme
+        if (document.getElementById('csvFloatingBtn')) return;
+
+        // Buton Konteyneri
+        let btnContainer = document.createElement("div");
+        btnContainer.id = "csvFloatingBtn";
+        btnContainer.style.position = "fixed";
+        btnContainer.style.bottom = "20px";
+        btnContainer.style.right = "20px";
+        btnContainer.style.zIndex = "99999";
+        btnContainer.style.boxShadow = "0 4px 8px rgba(0,0,0,0.3)";
+        btnContainer.style.borderRadius = "5px";
+
+        // Butonun Kendisi
+        let btn = document.createElement("button");
+        btn.innerHTML = '📥 DOWNLOAD CSV';
+        // Stil Ayarları (Görsel olarak güzel ve dikkat çekici olması için)
+        btn.style.backgroundColor = "#d9534f"; // Kırmızı renk
+        btn.style.color = "white";
+        btn.style.border = "none";
+        btn.style.padding = "10px 20px";
+        btn.style.fontSize = "14px";
+        btn.style.fontWeight = "bold";
+        btn.style.borderRadius = "5px";
+        btn.style.cursor = "pointer";
+        btn.style.fontFamily = "Arial, sans-serif";
+
+        // Hover efekti
+        btn.onmouseover = function() { btn.style.backgroundColor = "#c9302c"; };
+        btn.onmouseout = function() { btn.style.backgroundColor = "#d9534f"; };
+
+        // Tıklama olayı
+        btn.onclick = downloadTableAsCSV;
+
+        // Butonu sayfaya ekle
+        btnContainer.appendChild(btn);
+        document.body.appendChild(btnContainer);
+    }
+
+    // Sürekli kontrol (Sayfa yenilense bile buton geri gelir)
+    setInterval(addFloatingButton, 1000);
+
+})();
