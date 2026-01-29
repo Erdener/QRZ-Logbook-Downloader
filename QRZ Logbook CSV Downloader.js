@@ -15,7 +15,7 @@
     // Function to Download the CSV
     function downloadTableAsCSV() {
         let csv = [];
-        // Tablo satırlarını bul
+        // Find the Rows of the Table
         let rows = document.querySelectorAll("#lbtab tr.lrow");
 
         if (rows.length === 0) {
@@ -36,14 +36,14 @@
                 return el ? '"' + el.innerText.trim().replace(/"/g, '""') + '"' : '""';
             };
 
-            cols.push(getVal('td_date'));      // Tarih
-            cols.push(getVal('td_time'));      // Saat
-            cols.push(getVal('td_call2'));     // Çağrı İşareti
-            cols.push(getVal('td_freq2'));     // Frekans
-            cols.push(getVal('td_mode2'));     // Mod
+            cols.push(getVal('td_date'));      // Date
+            cols.push(getVal('td_time'));      // Time
+            cols.push(getVal('td_call2'));     // Call Sign
+            cols.push(getVal('td_freq2'));     // Frequency
+            cols.push(getVal('td_mode2'));     // Mode
             cols.push(getVal('td_grid2'));     // Grid
-            cols.push(getVal('td_country2'));  // Ülke
-            cols.push(getVal('td_name2'));     // İsim
+            cols.push(getVal('td_country2'));  // Country
+            cols.push(getVal('td_name2'));     // Name
 
             // Get from the Approval Status (Confirmed, Rejected vb.) title
             let statusEl = row.querySelector('.td_status span');
@@ -83,7 +83,7 @@
         let btn = document.createElement("button");
         btn.innerHTML = '📥 DOWNLOAD CSV';
         // Style Conf
-        btn.style.backgroundColor = "#d9534f"; // Kırmızı renk
+        btn.style.backgroundColor = "#d9534f"; // Red color
         btn.style.color = "white";
         btn.style.border = "none";
         btn.style.padding = "10px 20px";
