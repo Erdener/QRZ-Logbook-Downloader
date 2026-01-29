@@ -19,7 +19,7 @@
         let rows = document.querySelectorAll("#lbtab tr.lrow");
 
         if (rows.length === 0) {
-            alert("Tabloda veri bulunamadı veya tablo henüz yüklenmedi!");
+            alert("No data in the table or table not loaded yet!");
             return;
         }
 
@@ -38,14 +38,14 @@
 
             cols.push(getVal('td_date'));      // Date
             cols.push(getVal('td_time'));      // Time
-            cols.push(getVal('td_call2'));     // Call Sign
+            cols.push(getVal('td_call2'));     // Callsign
             cols.push(getVal('td_freq2'));     // Frequency
             cols.push(getVal('td_mode2'));     // Mode
             cols.push(getVal('td_grid2'));     // Grid
             cols.push(getVal('td_country2'));  // Country
             cols.push(getVal('td_name2'));     // Name
 
-            // Get from the Approval Status (Confirmed, Rejected vb.) title
+            // Get from the Approval Status (Confirmed, Rejected etc.) title
             let statusEl = row.querySelector('.td_status span');
             let status = statusEl ? statusEl.getAttribute('title') : "";
             cols.push('"' + status + '"');
