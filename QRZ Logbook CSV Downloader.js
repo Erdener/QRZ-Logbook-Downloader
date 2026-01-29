@@ -1,12 +1,15 @@
 // ==UserScript==
 // @name         QRZ Logbook CSV Downloader
 // @namespace    http://tampermonkey.net/
-// @version      3.0
+// @version      3.1
 // @description  Download the QRZ Logbook table as CSV
 // @author       Erdener Tuna
 // @match        https://logbook.qrz.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=qrz.com
 // @grant        none
+// @license      GPL v3
+// @homepageURL  https://github.com/Erdener/QRZ-Logbook-Downloader
+// @supportURL   https://github.com/Erdener/QRZ-Logbook-Downloader/issues
 // ==/UserScript==
 
 (function() {
